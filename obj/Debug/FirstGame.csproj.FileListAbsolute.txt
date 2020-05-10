@@ -8,3 +8,6 @@ C:\Users\Максим\source\repos\FirstGame\FirstGame\obj\Debug\FirstGame.cspro
 C:\Users\Максим\source\repos\FirstGame\FirstGame\obj\Debug\FirstGame.csproj.CoreCompileInputs.cache
 C:\Users\Максим\source\repos\FirstGame\FirstGame\obj\Debug\FirstGame.exe
 C:\Users\Максим\source\repos\FirstGame\FirstGame\obj\Debug\FirstGame.pdb
+C:\Users\Максим\source\repos\FirstGame\FirstGame\obj\Debug\Interop.MediaPlayer.dll
+C:\Users\Максим\source\repos\FirstGame\FirstGame\obj\Debug\Interop.WMPLib.dll
+C:\Users\Максим\source\repos\FirstGame\FirstGame\obj\Debug\FirstGame.csproj.ResolveComReference.cache

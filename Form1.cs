@@ -19,6 +19,9 @@ namespace FirstGame
         Random rand;
         int playerSpeed;
 
+        PictureBox[] bullets;
+        int bulletSpeed;
+
         public Form1()
         {
             InitializeComponent();
@@ -31,7 +34,7 @@ namespace FirstGame
                 cloud[i].Left += backgroundSpeed;
                 if (cloud[i].Left >= 1280)
                 {
-                    cloud[i].Left = cloud[i].Height;
+                    cloud[i].Left = -cloud[i].Width;
                 }
             }
             for(int i = cloud.Length; i < cloud.Length; i++)
@@ -51,13 +54,27 @@ namespace FirstGame
             backgroundSpeed = 5;
             cloud = new PictureBox[20];
             rand = new Random();
-            playerSpeed = 1;
+            playerSpeed = 3;
+
+            bullets = new PictureBox[1];
+            bulletSpeed = 80;
+
+            for (int i = 0; i < bullets.Length; i++)
+            {
+                bullets[i] = new PictureBox();
+                bullets[i].BorderStyle = BorderStyle.None;
+                bullets[i].Size = new Size(20, 5);
+                bullets[i].BackColor = Color.White;
+
+                this.Controls.Add(bullets[i]);
+            }
+            
 
             for(int i = 0; i < cloud.Length; i++)
             {
                 cloud[i] = new PictureBox();
                 cloud[i].BorderStyle = BorderStyle.None;
-                cloud[i].Location = new Point(rand.Next(-1000, 1280), rand.Next(140, 380));
+                cloud[i].Location = new Point(rand.Next(-1000, 1280), rand.Next(100, 380));
                 if (i % 2 == 1)
                 {
                     cloud[i].Size = new Size(rand.Next(100, 225), rand.Next(30, 70));
@@ -127,6 +144,10 @@ namespace FirstGame
                     DownMoveTimer.Start();
                 }
             }
+            if(e.KeyCode == Keys.Space)
+            {
+                shootingTimer.Start();
+            }
             if(e.KeyCode == Keys.Escape)
             {
                 Process.GetCurrentProcess().Kill();
@@ -155,7 +176,30 @@ namespace FirstGame
                     DownMoveTimer.Stop();
                 }
             }
+            if (e.KeyCode == Keys.Space)
+            {
+                shootingTimer.Stop();
+            }
 
+        }
+
+        private void MoveBulletsTimer_Tick(object sender, EventArgs e)
+        {
+            for(int i = 0; i < bullets.Length; i++)
+            {
+                bullets[i].Left += bulletSpeed;
+            }
+        }
+
+        private void shootingTimer_Tick(object sender, EventArgs e)
+        {
+            for (int i = 0; i < bullets.Length; i++)
+            {
+                if (bullets[i].Left > 1280)
+                {
+                    bullets[i].Location = new Point(mainPlayer.Location.X + 100 + i * 50, mainPlayer.Location.Y + 50); ;
+                }
+            }
         }
     }
 }
