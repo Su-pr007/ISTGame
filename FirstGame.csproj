@@ -83,5 +83,11 @@
   <ItemGroup>
     <None Include="material\background_01.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="material\cowboy.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="material\cowboy-run.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

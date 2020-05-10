@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -16,6 +17,8 @@ namespace FirstGame
         PictureBox[] cloud;
         int backgroundSpeed;
         Random rand;
+        int playerSpeed;
+
         public Form1()
         {
             InitializeComponent();
@@ -42,15 +45,13 @@ namespace FirstGame
 
         }
 
-        private void timer1_Tick_1(object sender, EventArgs e)
-        {
-        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             backgroundSpeed = 5;
             cloud = new PictureBox[20];
             rand = new Random();
+            playerSpeed = 1;
 
             for(int i = 0; i < cloud.Length; i++)
             {
@@ -69,6 +70,92 @@ namespace FirstGame
                 }
                 this.Controls.Add(cloud[i]);
             }
+        }
+
+        private void LeftMoveTimer_Tick(object sender, EventArgs e)
+        {
+            if(mainPlayer.Left > 10)
+            {
+                mainPlayer.Left -= playerSpeed;
+            }
+        }
+
+        private void RightMoveTimer_Tick(object sender, EventArgs e)
+        {
+            if (mainPlayer.Left < 1150)
+            {
+                mainPlayer.Left += playerSpeed;
+            }
+
+        }
+
+        private void UpMoveTimer_Tick(object sender, EventArgs e)
+        {
+            if (mainPlayer.Top > 10)
+            {
+                mainPlayer.Top -= playerSpeed;
+            }
+        }
+
+        private void DownMoveTimer_Tick(object sender, EventArgs e)
+        {
+            if (mainPlayer.Top < 600)
+            {
+                mainPlayer.Top += playerSpeed;
+            }
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Left || e.KeyCode == Keys.Right || e.KeyCode == Keys.Down || e.KeyCode == Keys.Up)
+            {
+                mainPlayer.Image = Properties.Resources.cowboy_run;
+                if (e.KeyCode == Keys.Left)
+                {
+                    LeftMoveTimer.Start();
+                }
+                if (e.KeyCode == Keys.Right)
+                {
+                    RightMoveTimer.Start();
+                }
+                if (e.KeyCode == Keys.Up)
+                {
+                    UpMoveTimer.Start();
+                }
+                if (e.KeyCode == Keys.Down)
+                {
+                    DownMoveTimer.Start();
+                }
+            }
+            if(e.KeyCode == Keys.Escape)
+            {
+                Process.GetCurrentProcess().Kill();
+            }
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right || e.KeyCode == Keys.Down || e.KeyCode == Keys.Up)
+            {
+                mainPlayer.Image = Properties.Resources.cowboy;
+                if (e.KeyCode == Keys.Left)
+                {
+                    LeftMoveTimer.Stop();
+                }
+                if (e.KeyCode == Keys.Right)
+                {
+                    RightMoveTimer.Stop();
+                }
+                if (e.KeyCode == Keys.Up)
+                {
+                    UpMoveTimer.Stop();
+                }
+                if (e.KeyCode == Keys.Down)
+                {
+                    DownMoveTimer.Stop();
+                }
+            }
+
         }
     }
 }
