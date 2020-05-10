@@ -5,10 +5,12 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WMPLib;
 
 namespace FirstGame
 {
@@ -21,6 +23,14 @@ namespace FirstGame
 
         PictureBox[] bullets;
         int bulletSpeed;
+
+        PictureBox[] enemies;
+        readonly int sizeEnemy;
+        int enemiesSpeed;
+
+        WindowsMediaPlayer Shoot;
+        WindowsMediaPlayer GameSong;
+        WindowsMediaPlayer DeathSound;
 
         public Form1()
         {
@@ -59,12 +69,60 @@ namespace FirstGame
             bullets = new PictureBox[1];
             bulletSpeed = 80;
 
+
+            enemies = new PictureBox[4];
+            int sizeEnemy = rand.Next(60, 80);
+            enemiesSpeed = 3;
+
+            Image easyEnemies = Image.FromFile("assets\\virus.gif");
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                enemies[i] = new PictureBox
+                {
+                    Size = new Size(sizeEnemy, sizeEnemy),
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    BackColor = Color.Transparent,
+                    Image = easyEnemies,
+                    Location = new Point((i + 1) * rand.Next(90, 160) + 1080, rand.Next(450, 600))
+                };
+
+                this.Controls.Add(enemies[i]);
+            }
+
+
+            Shoot = new WindowsMediaPlayer
+            {
+                URL = "songs\\shoot.wav"
+            };
+            Shoot.settings.volume = 5;
+
+
+
+            DeathSound = new WindowsMediaPlayer
+            {
+                URL = "songs\\DeathSound.wav"
+            };
+            DeathSound.settings.volume = 10;
+
+
+
+            GameSong = new WindowsMediaPlayer
+            {
+                URL = "songs\\bgmusic.mp3"
+            };
+            GameSong.settings.setMode("loop", true);
+            GameSong.settings.volume = 15;
+
+            GameSong.controls.play();
+
             for (int i = 0; i < bullets.Length; i++)
             {
-                bullets[i] = new PictureBox();
-                bullets[i].BorderStyle = BorderStyle.None;
-                bullets[i].Size = new Size(20, 5);
-                bullets[i].BackColor = Color.White;
+                bullets[i] = new PictureBox
+                {
+                    BorderStyle = BorderStyle.None,
+                    Size = new Size(20, 5),
+                    BackColor = Color.White
+                };
 
                 this.Controls.Add(bullets[i]);
             }
@@ -72,9 +130,11 @@ namespace FirstGame
 
             for(int i = 0; i < cloud.Length; i++)
             {
-                cloud[i] = new PictureBox();
-                cloud[i].BorderStyle = BorderStyle.None;
-                cloud[i].Location = new Point(rand.Next(-1000, 1280), rand.Next(100, 380));
+                cloud[i] = new PictureBox
+                {
+                    BorderStyle = BorderStyle.None,
+                    Location = new Point(rand.Next(-1000, 1280), rand.Next(100, 380))
+                };
                 if (i % 2 == 1)
                 {
                     cloud[i].Size = new Size(rand.Next(100, 225), rand.Next(30, 70));
@@ -146,7 +206,7 @@ namespace FirstGame
             }
             if(e.KeyCode == Keys.Space)
             {
-                shootingTimer.Start();
+                ShootingTimer.Start();
             }
             if(e.KeyCode == Keys.Escape)
             {
@@ -178,7 +238,7 @@ namespace FirstGame
             }
             if (e.KeyCode == Keys.Space)
             {
-                shootingTimer.Stop();
+                ShootingTimer.Stop();
             }
 
         }
@@ -193,11 +253,51 @@ namespace FirstGame
 
         private void shootingTimer_Tick(object sender, EventArgs e)
         {
+            Shoot.controls.play();
             for (int i = 0; i < bullets.Length; i++)
             {
                 if (bullets[i].Left > 1280)
                 {
                     bullets[i].Location = new Point(mainPlayer.Location.X + 100 + i * 50, mainPlayer.Location.Y + 50); ;
+                }
+            }
+
+            Intersect();
+        }
+
+        private void MoveEnemiesTimer_Tick(object sender, EventArgs e)
+        {
+            MoveEnemies(enemies, enemiesSpeed);
+        }
+        private void MoveEnemies(PictureBox[] enemies, int speed)
+        {
+            for(int i=0; i<enemies.Length; i++)
+            {
+                enemies[i].Left -= speed + (int)(Math.Sin(enemies[i].Left * Math.PI / 180) + Math.Cos(enemies[i].Left * Math.PI / 180));
+
+                Intersect();
+
+                if(enemies[i].Left < this.Left)
+                {
+                    int sizeEnemy = rand.Next(60, 90);
+                    enemies[i].Size = new Size(sizeEnemy, sizeEnemy);
+                    enemies[i].Location = new Point((i + 1) * rand.Next(150, 250) + 1080, rand.Next(450, 650));
+                }
+            }
+        }
+        private void Intersect()
+        {
+            for(int i = 0; i < enemies.Length; i++)
+            {
+                if (bullets[0].Bounds.IntersectsWith(enemies[i].Bounds))
+                {
+                    enemies[i].Location = new Point(rand.Next(150, 250) + 1280, rand.Next(450, 600));
+                    bullets[0].Location = new Point(2000, mainPlayer.Location.Y + 50);
+                    DeathSound.controls.play();
+                }
+                if (mainPlayer.Bounds.IntersectsWith(enemies[i].Bounds))
+                {
+                    mainPlayer.Visible = false;
                 }
             }
         }

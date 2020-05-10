@@ -36,7 +36,8 @@
             this.UpMoveTimer = new System.Windows.Forms.Timer(this.components);
             this.DownMoveTimer = new System.Windows.Forms.Timer(this.components);
             this.MoveBulletsTimer = new System.Windows.Forms.Timer(this.components);
-            this.shootingTimer = new System.Windows.Forms.Timer(this.components);
+            this.ShootingTimer = new System.Windows.Forms.Timer(this.components);
+            this.MoveEnemiesTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mainPlayer)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,9 +83,15 @@
             this.MoveBulletsTimer.Interval = 10;
             this.MoveBulletsTimer.Tick += new System.EventHandler(this.MoveBulletsTimer_Tick);
             // 
-            // shootingTimer
+            // ShootingTimer
             // 
-            this.shootingTimer.Tick += new System.EventHandler(this.shootingTimer_Tick);
+            this.ShootingTimer.Tick += new System.EventHandler(this.shootingTimer_Tick);
+            // 
+            // MoveEnemiesTimer
+            // 
+            this.MoveEnemiesTimer.Enabled = true;
+            this.MoveEnemiesTimer.Interval = 10;
+            this.MoveEnemiesTimer.Tick += new System.EventHandler(this.MoveEnemiesTimer_Tick);
             // 
             // Form1
             // 
@@ -116,7 +123,8 @@
         private System.Windows.Forms.Timer UpMoveTimer;
         private System.Windows.Forms.Timer DownMoveTimer;
         private System.Windows.Forms.Timer MoveBulletsTimer;
-        private System.Windows.Forms.Timer shootingTimer;
+        private System.Windows.Forms.Timer ShootingTimer;
+        private System.Windows.Forms.Timer MoveEnemiesTimer;
     }
 }
 
