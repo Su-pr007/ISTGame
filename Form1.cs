@@ -23,11 +23,6 @@ namespace FirstGame
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-
-        }
-
-        private void timer1_Tick_1(object sender, EventArgs e)
-        {
             for(int i = 0; i < cloud.Length; i++)
             {
                 cloud[i].Left += backgroundSpeed;
@@ -36,6 +31,19 @@ namespace FirstGame
                     cloud[i].Left = cloud[i].Height;
                 }
             }
+            for(int i = cloud.Length; i < cloud.Length; i++)
+            {
+                cloud[i].Left += backgroundSpeed - 10;
+                if(cloud[i].Left >= 1280)
+                {
+                    cloud[i].Left = cloud[i].Left;
+                }
+            }
+
+        }
+
+        private void timer1_Tick_1(object sender, EventArgs e)
+        {
         }
 
         private void Form1_Load(object sender, EventArgs e)
