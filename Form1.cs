@@ -186,7 +186,7 @@ namespace FirstGame
         {
             if(e.KeyCode == Keys.Left || e.KeyCode == Keys.Right || e.KeyCode == Keys.Down || e.KeyCode == Keys.Up)
             {
-                mainPlayer.Image = Properties.Resources.cowboy_run;
+                mainPlayer.Image = Properties.Resources.flying;
                 if (e.KeyCode == Keys.Left)
                 {
                     LeftMoveTimer.Start();
@@ -218,7 +218,7 @@ namespace FirstGame
         {
             if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right || e.KeyCode == Keys.Down || e.KeyCode == Keys.Up)
             {
-                mainPlayer.Image = Properties.Resources.cowboy;
+                mainPlayer.Image = Properties.Resources.staying;
                 if (e.KeyCode == Keys.Left)
                 {
                     LeftMoveTimer.Stop();

@@ -50,7 +50,7 @@
             // mainPlayer
             // 
             this.mainPlayer.BackColor = System.Drawing.Color.Transparent;
-            this.mainPlayer.Image = global::FirstGame.Properties.Resources.cowboy;
+            this.mainPlayer.Image = global::FirstGame.Properties.Resources.staying;
             this.mainPlayer.Location = new System.Drawing.Point(548, 484);
             this.mainPlayer.Name = "mainPlayer";
             this.mainPlayer.Size = new System.Drawing.Size(100, 100);
